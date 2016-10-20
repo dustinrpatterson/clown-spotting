@@ -1,20 +1,43 @@
 let routes = require('express').Router();
 let Clown = require('../models/clown')
-routes.route("/clowns/:index?")
+routes.route("/clowns/:id?")
   .get(function (req, res) {
-    if (req.params.index) {
-      res.send(Clown.getClown(req.params.index))
+    if (req.params.id) {
+      Clown.getClown(req.params.id, handleResponse)
       return
     }
-    res.send(Clown.getClowns())
+    Clown.getClowns(handleResponse)
+    
+    function handleResponse(err, data){
+      if(err){
+        return res.send(err)
+      }
+      res.send(data)
+    }
   })
   .post(function (req, res) {
-    res.send(Clown.addClown(req.body.clown))
+    Clown.addClown(req.body.clown, function(err, data){
+      if(err){
+        return res.send(err)
+      }
+      res.send(data)
+    })
   })
   .put(function (req, res) {
-    res.send(Clown.editClown(req.params.index, req.body.clown))
+    Clown.editClown(req.params.id, req.body.clown, function(err, blurged){
+      if(err){
+        return res.send(err)
+      }
+      res.send({message: 'successfully updated '+ blurged + ' fields'})
+    })
   })
   .delete(function (req, res) {
-    res.send(Clown.killClown(req.params.index))
+    Clown.killClown(req.params.id, function(err, blurged){
+      if(err){
+        return res.status(204).send(err)
+      }
+      res.send({message: 'successfully killed that terrible clown, for now....'})
+    })
   })
+
 module.exports = { routes }
