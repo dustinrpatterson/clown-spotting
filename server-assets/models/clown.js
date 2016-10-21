@@ -11,6 +11,7 @@ function Clown(name, hair, shoeSize, weapon, psycho){
   this.weapon = weapon;
   this.psycho = psycho || true;
   this.dead = false;
+  this.sightings = []
 };
 
 function findClown(id, cb){
@@ -45,7 +46,8 @@ function editClown(id, newClown, cb){
       hair: newClown.hair,
       shoeSize: newClown.shoeSize,
       weapon: newClown.weapon,
-      psycho: newClown.psycho
+      psycho: newClown.psycho,
+      sightings: newClown.sightings
     }
   }, {}, cb)
 }
