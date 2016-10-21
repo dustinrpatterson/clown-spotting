@@ -1,5 +1,7 @@
 let routes = require('express').Router();
+
 let Clown = require('../models/clown')
+
 routes.route("/clowns/:id?")
   .get(function (req, res) {
     if (req.params.id) {
