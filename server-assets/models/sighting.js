@@ -6,6 +6,10 @@ function Sighting(sighting){
   this.time = Date.now()
 }
 
+function findClownSightings(clownId, cb){
+  db.find({clownId: clownId}, cb)
+}
+
 
 function addSighting(sighting, cb){ 
   Clown.getClown(sighting.clownId, function(err, clown){
@@ -17,6 +21,7 @@ function addSighting(sighting, cb){
 
     db.insert(newSighting, function(err, savedSighting){
       if(err){return cb(err)}
+      clown.sightings = clown.sightings || []
       clown.sightings.push(savedSighting._id)
       Clown.editClown(clown._id, clown, function(err){
         if(err){ cb(err) }
@@ -26,6 +31,11 @@ function addSighting(sighting, cb){
   })
 }
 
+
+
+module.exports = {
+  findClownSightings
+}
 
 
 

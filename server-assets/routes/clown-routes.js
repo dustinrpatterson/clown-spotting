@@ -42,4 +42,15 @@ routes.route("/clowns/:id?")
     })
   })
 
+routes.route('/clowns/:id/details')
+  .get(function(req, res){
+    Clown.findClownAndItLocations(req.params.id, function(err, clown){
+      if(err){ return res.send(err) }
+      res.send(clown)
+    })
+    
+  })
+
+
+
 module.exports = { routes }

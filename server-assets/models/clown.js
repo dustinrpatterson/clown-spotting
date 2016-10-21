@@ -1,3 +1,4 @@
+let Sighting = require('./sighting')
 let DataStore = require('nedb')
 let db = new DataStore({
   filename: './data/clowns.db',
@@ -17,6 +18,18 @@ function Clown(name, hair, shoeSize, weapon, psycho){
 function findClown(id, cb){
   db.findOne({_id: id}, cb);
 };
+
+function findClownAndItLocations(id, cb){
+  db.findOne({_id: id}, function(err, clown){
+    if(err){ return cb(err)}
+    Sighting.findClownSightings(clown._id, function(err, sightings){
+      if(err) { return cb(err) }
+      clown.sightingLocations = sightings
+      cb(null, clown)
+    })
+  });
+};
+
 
 function addClown(clown, cb){
   let newClown = new Clown(clown.name, clown.hair, clown.shoeSize, clown.weapon, clown.psycho)
@@ -58,5 +71,6 @@ module.exports = {
   getClowns,
   killClown,
   editClown, 
+  findClownAndItLocations,
   getClown:findClown
 };
