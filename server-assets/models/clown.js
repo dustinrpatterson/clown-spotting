@@ -4,6 +4,11 @@ let db = new DataStore({
   filename: './data/clowns.db',
   autoload: true
 })
+let sightings = new DataStore({
+  filename: './data/sightings.db',
+  autoload: true
+})
+
 
 function Clown(name, hair, shoeSize, weapon, psycho){
   this.name = name;
@@ -66,11 +71,33 @@ function editClown(id, newClown, cb){
 }
 
 
+function addSighting(sighting, cb){ 
+  findClown(sighting.clownId, function(err, clown){
+    if(!clown || err){
+      return cb({error: err, message: 'Sorry that didn\'t work'})
+    }
+
+    let newSighting = new Sighting(sighting)
+
+    sightings.insert(newSighting, function(err, savedSighting){
+      if(err){return cb(err)}
+      clown.sightings = clown.sightings || []
+      clown.sightings.push(savedSighting._id)
+      editClown(clown._id, clown, function(err){
+        if(err){ cb(err) }
+        cb(null, {message:'You\'re lucky to be alive with having seen ' + clown.name+ ' the clown!'})
+      })
+    })
+  })
+}
+
+
 module.exports = {
   addClown,
   getClowns,
   killClown,
   editClown, 
   findClownAndItLocations,
+  addSighting,
   getClown:findClown
 };

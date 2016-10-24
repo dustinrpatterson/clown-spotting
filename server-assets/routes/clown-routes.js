@@ -51,6 +51,16 @@ routes.route('/clowns/:id/details')
     
   })
 
+routes.route('/clowns/spotted')
+  .post(function(req, res){
+    Clown.addSighting(req.body.sighting, function(err, clown){
+      if(err){ return res.send(err) }
+      res.send(clown)
+    })
+    
+  })
+
+
 
 
 module.exports = { routes }
