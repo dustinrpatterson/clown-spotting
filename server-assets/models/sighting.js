@@ -8,7 +8,6 @@ function findClownSightings(clownId, cb){
   db.find({clownId: clownId}, cb)
 }
 
-
 module.exports = {
   findClownSightings
 }
