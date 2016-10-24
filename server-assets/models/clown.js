@@ -1,6 +1,7 @@
-let Sighting = require('./sighting')
-let db = require('./data-adapter').Clown;
-let sightings = require('./data-adapter').Sighting;
+let Sighting = require('./sighting');
+let ds = require('./data-adapter');
+let db = ds.Clown;
+let sightings = ds.Sighting;
 
 function Clown(name, hair, shoeSize, weapon, psycho){
   this.name = name;

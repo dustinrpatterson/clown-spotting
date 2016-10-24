@@ -1,4 +1,3 @@
-let DataStore = require('nedb')
 let db = require('./data-adapter').Sighting;
 
 function Sighting(sighting){

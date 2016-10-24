@@ -5,7 +5,7 @@ let Clown = require('../models/clown')
 routes.route("/clowns/:id?")
   .get(function (req, res) {
     if (req.params.id) {
-      Clown.getClown(req.params.id, handleResponse)
+      Clown.findClownAndItLocations(req.params.id, handleResponse)
       return
     }
     Clown.getClowns(handleResponse)
