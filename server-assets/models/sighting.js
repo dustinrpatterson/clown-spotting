@@ -1,3 +1,6 @@
+let DataStore = require('nedb')
+let db = require('./data-adapter').Sighting;
+
 function Sighting(sighting){
   this.clownId = sighting.clownId
   this.location = sighting.location
@@ -9,7 +12,8 @@ function findClownSightings(clownId, cb){
 }
 
 module.exports = {
-  findClownSightings
+  findClownSightings,
+  createSighting: Sighting
 }
 
 

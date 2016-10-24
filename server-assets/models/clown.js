@@ -1,14 +1,6 @@
 let Sighting = require('./sighting')
-let DataStore = require('nedb')
-let db = new DataStore({
-  filename: './data/clowns.db',
-  autoload: true
-})
-let sightings = new DataStore({
-  filename: './data/sightings.db',
-  autoload: true
-})
-
+let db = require('./data-adapter').Clown;
+let sightings = require('./data-adapter').Sighting;
 
 function Clown(name, hair, shoeSize, weapon, psycho){
   this.name = name;
@@ -77,7 +69,7 @@ function addSighting(sighting, cb){
       return cb({error: err, message: 'Sorry that didn\'t work'})
     }
 
-    let newSighting = new Sighting(sighting)
+    let newSighting = new Sighting.createSighting(sighting)
 
     sightings.insert(newSighting, function(err, savedSighting){
       if(err){return cb(err)}
