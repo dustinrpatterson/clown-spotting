@@ -10,7 +10,7 @@ let Sighting = new DataStore({
   autoload: true
 })
 
-module.export = {
+module.exports = {
   Clown, 
   Sighting
 }
